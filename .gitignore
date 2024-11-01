@@ -1,3 +1,13 @@
+# Env
+.env
+
+# Temporary files
+*.swp
+*.swo
+*.tmp
+*.log
+temp/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
