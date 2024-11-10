@@ -1,0 +1,32 @@
+# Title
+Database Server Design
+
+# Summary
+The database server is designed to handle client requests through a protocol handler that separates the concerns of parsing requests and sending responses. It utilizes a socket-based architecture, allowing for concurrent connections through the use of a thread pool. The server is capable of processing commands from clients and returning appropriate responses, including error messages for improperly formatted requests.
+
+# Protocols Included
+The following protocols are supported by the server:
+
+1. **Simple String Protocol**: Messages prefixed with a '+' indicate a simple string response.
+  
+2. **String Protocol**: Messages prefixed with a '$' represent a bulk string. The protocol includes the length of the string, followed by the actual string data.
+
+3. **Array Protocol**: Messages prefixed with a '*' indicate an array of elements. The protocol specifies the number of elements in the array, followed by each individual element.
+
+4. **Error Protocol**: Messages prefixed with a '-' indicate an error. This allows the server to communicate issues back to the client.
+
+5. **Integer Protocol**: Messages prefixed with a ':' represent an integer value. The protocol reads the integer directly from the input stream.
+
+6. **Dictionary Protocol**: Messages prefixed with a '%' indicate a dictionary structure, allowing key-value pairs to be sent to the server.
+
+# Exception Handling
+
+The server employs typed exceptions to manage error scenarios and client disconnects. This allows for clearer error reporting and handling within the server's operations. The use of specific exception types enhances the maintainability of the code and ensures that errors are handled in a predictable manner.
+
+## Error Types
+
+- **CommandError**: Raised when a client sends a request that is improperly formatted or cannot be processed. This exception is intended to provide feedback to the client regarding the nature of the error.
+  
+- **Disconnect**: Raised when the client disconnects from the server, indicating that the server should exit the current request handling loop for that client.
+  
+- **Error**: A general-purpose error type that can encapsulate a message describing the error. This is used for sending serialized error responses back to the client.
